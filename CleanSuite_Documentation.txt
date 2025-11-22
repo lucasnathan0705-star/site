@@ -1,0 +1,61 @@
+CLEAN SUITE - DOCUMENTACAO
+==========================
+
+Resumo
+------
+CleanSuite.bat: script completo com menu interativo, logs e funcoes de limpeza.
+CleanSuite_Lite.bat: versao reduzida para limpeza rapida.
+CleanSuite.ps1: modulo PowerShell modular para uso avancado ou integracao.
+
+Requisitos
+----------
+- Windows 10 ou Windows 11.
+- Prompt de comando aberto como Administrador.
+- PowerShell disponivel no PATH (padrao do Windows 10/11).
+
+Log
+---
+- Arquivo principal: %ProgramData%\CleanSuite\CleanSuite_DATA.log (ou %TEMP% se o caminho nao existir).
+- A versao Lite grava no %TEMP%\CleanSuite_Lite.log.
+
+Funcoes principais (CleanSuite.bat)
+-----------------------------------
+- Limpeza completa: executa todas as rotinas de limpeza e diagnostico.
+- Limpeza de caches de navegadores: Edge, Chrome e Firefox (todos os perfis nao protegidos).
+- Limpeza de DNS: ipconfig /flushdns.
+- Limpeza de spooler: para o servico, apaga PRINTERS e reinicia o servico.
+- Reparos rapidos: DISM /Online /Cleanup-Image /RestoreHealth e opcionalmente SFC /SCANNOW.
+- Otimizacao de inicializacao: limpa apenas arquivos .pf do Prefetch (nao remove pastas criticas).
+- Diagnostico de espaco: gera ranking dos 10 maiores perfis em %SystemDrive%\Users.
+- Limpeza do Windows Update: pausa servicos (BITS, WUAUSERV, CRYPTSVC), limpa caches e reinicia.
+- Limpeza de lixeira: usa Clear-RecycleBin via PowerShell.
+- Limpeza rapida: apenas temporarios e DNS.
+- Desinstalar WPS: procura instalacoes do WPS Office via Win32_Product e tenta desinstalar.
+
+Protecoes
+---------
+- Perfis protegidos ignorados: Administrator, Administrators, Default User, Default, Public, All Users, defaultuser0, systemprofile.
+- Confirmacao antes de SFC (para evitar execucoes longas nao desejadas).
+- Uso de PowerShell com -ErrorAction SilentlyContinue para evitar interrupcoes por arquivos bloqueados.
+
+Como usar (CleanSuite.bat)
+--------------------------
+1. Abrir o Prompt de Comando como Administrador.
+2. Executar o script: CleanSuite.bat
+3. Escolher a opcao desejada pelo menu. Os resultados sao exibidos na tela e gravados no log.
+
+Como usar (CleanSuite_Lite.bat)
+--------------------------------
+1. Abrir o Prompt de Comando como Administrador.
+2. Executar: CleanSuite_Lite.bat
+3. O script executa limpeza basica e finaliza, gerando log no %TEMP%.
+
+Como usar (CleanSuite.ps1)
+--------------------------
+- Importar como modulo ou executar diretamente: .\CleanSuite.ps1
+- As funcoes publicas sao: Invoke-CleanAll, Invoke-CleanLite, Invoke-DiskReport, Uninstall-WpsOffice.
+
+Notas de desempenho
+-------------------
+- Operacoes paralelas nao foram usadas para manter compatibilidade com consoles padrao.
+- O uso intensivo de PowerShell foi limitado a tarefas que exigem globbing ou manipulacao de arquivos em massa.
